@@ -1,0 +1,5 @@
+[0224/193725:ERROR:tcp_socket_win.cc(335)] bind() returned an error: Обычно разрешается только одно использование адреса сокета (протокол/сетевой адрес/порт). (0x2740)
+[0224/193725:ERROR:devtools_http_handler.cc(229)] Cannot start http server for devtools. Stop devtools.
+[0224/193725:ERROR:angle_platform_impl.cc(33)] ANGLE Display::initialize error 5: DXGI 1.2 required to present to HWNDs owned by another process.
+[0224/193725:ERROR:gl_surface_egl.cc(594)] eglInitialize D3D11 failed with error EGL_NOT_INITIALIZED, trying next display type
+[0224/193731:INFO:CONSOLE(8)] "Uncaught TypeError: Cannot read property 'appendChild' of null", source: https://devhost.local/ (8)
