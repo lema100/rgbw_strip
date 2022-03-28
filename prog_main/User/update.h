@@ -18,6 +18,7 @@ extern "C" {
 #include <stdint.h>
 
 #define FLASH_BASE			0x08000000UL
+#define FLASH_PAGE_SIZE		1024
 #define UPDATE_START 		(FLASH_BASE + 64 * 1024)
 #define UPDATE_END 			(FLASH_BASE + 128 * 1024)
 #define UPDATE_APP_START 	(FLASH_BASE + 4 * 1024)
@@ -34,7 +35,7 @@ typedef struct
 	uint32_t end_add;
 	uint32_t crc;
 	uint32_t reserved[UPDATE_RESERVED];
-	uint32_t crc_of_this_struct;
+	uint32_t crc_this;
 } update_ctx_t;
 #pragma pack(pop)
 
@@ -48,6 +49,14 @@ typedef enum
 	UPDATE_APP_IS_ACTUAL,
 	UPDATE_APP_IS_UPDATED,
 } update_state_t;
+
+enum
+{
+	UPDATE_CMD_READ = 10,
+	UPDATE_CMD_WRITE,
+	UPDATE_CMD_ERASE,
+	UPDATE_CMD_CHECK,
+};
 
 update_state_t update_check(update_ctx_t *su);
 

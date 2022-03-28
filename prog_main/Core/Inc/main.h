@@ -86,14 +86,6 @@ enum
 	MB_UPDATE_DATA,
 };
 
-enum
-{
-	UPDATE_CMD_READ = 10,
-	UPDATE_CMD_WRITE,
-	UPDATE_CMD_ERASE,
-	UPDATE_CMD_CHECK,
-};
-
 #ifdef __cplusplus
 }
 #endif

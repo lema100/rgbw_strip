@@ -93,6 +93,56 @@ int thread::m_Timeout(){
 				emit Print_to_textBrowser("Write address OK");
 				break;
 			}
+			case CMD_BURN_BIN:
+			{
+				update_ctx_t su;
+				su.ver = 0;
+				su.ver_ext = 1;
+				su.start_add = UPDATE_START;
+				su.end_add = UPDATE_START + _bin.size();
+				su.crc = CRC16(_bin.data(), 0, _bin.size());
+				su.crc_this = CRC16((char *)&su, 0, sizeof(update_ctx_t) - 4);
+				_bin.prepend((char *)&su, sizeof(update_ctx_t));
+
+				for (uint32_t i = UPDATE_START; i < UPDATE_END; i += FLASH_PAGE_SIZE)
+				{
+					uint32_t retry = 3;
+					tab_reg[0] = UPDATE_CMD_ERASE;
+					tab_reg[1] = (i - FLASH_BASE) / 4;
+					if ((modbus_write_registers(my_modbus, MB_UPDATE_CMD, 2, tab_reg)) == -1)
+						return mb_err(my_modbus, QString("Update erase 0x%1 ERROR0").arg(i, 8, 16, QLatin1Char('0')));
+					while (retry && (tab_reg[0] & 0x8000 == 0))
+					{
+						if ((modbus_read_registers(my_modbus, MB_UPDATE_CMD, 1, tab_reg)) == -1)
+							return mb_err(my_modbus, QString("Update erase 0x%1 ERROR1").arg(i, 8, 16, QLatin1Char('0')));
+						retry++;
+					}
+					if (retry == 0)
+						return mb_err(my_modbus, QString("Update erase 0x%1 ERROR2").arg(i, 8, 16, QLatin1Char('0')));
+					emit Print_to_textBrowser(QString("Update erase 0x%1 OK").arg(i, 8, 16, QLatin1Char('0')));
+				}
+				for (uint32_t i = 0; i < _bin.size(); i += 200)
+				{
+					uint32_t retry = 3;
+					tab_reg[0] = UPDATE_CMD_WRITE;
+					tab_reg[1] = (UPDATE_START + i - FLASH_BASE) / 4;
+					tab_reg[2] = _bin.size() - i > 200 ? 200 : _bin.size() - i;
+					memcpy(&tab_reg[3], _bin.data() + i, tab_reg[2]);
+					if ((modbus_write_registers(my_modbus, MB_UPDATE_CMD, 105, tab_reg)) == -1)
+						return mb_err(my_modbus, QString("Write update 0x%1 ERROR0").arg(i, 8, 16, QLatin1Char('0')));
+					while (retry && (tab_reg[0] & 0x8000 == 0))
+					{
+						if ((modbus_read_registers(my_modbus, MB_UPDATE_CMD, 1, tab_reg)) == -1)
+							return mb_err(my_modbus, QString("Write update 0x%1 ERROR1").arg(i, 8, 16, QLatin1Char('0')));
+						retry++;
+					}
+					if (retry == 0)
+						return mb_err(my_modbus, QString("Write update 0x%1 ERROR2").arg(i, 8, 16, QLatin1Char('0')));
+					emit Print_to_textBrowser(QString("Write update 0x%1 OK").arg(i + UPDATE_START, 8, 16, QLatin1Char('0')));
+				}
+
+				break;
+			}
 			default:
 				emit device_read(data);
 				emit Print_to_textBrowser("Read OK");

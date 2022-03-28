@@ -14,7 +14,7 @@ update_state_t update_check(update_ctx_t *su)
 	memcpy((char *)su, (char *)UPDATE_START, sizeof(update_ctx_t));
 
 	crc_calc = CRC16((char *)su, 0, sizeof(update_ctx_t) - 4);
-	if (crc_calc != su->crc_of_this_struct)
+	if (crc_calc != su->crc_this)
 		return UPDATE_CRC_STRUCT_ERROR;
 
 	if (su->end_add >= su->start_add)

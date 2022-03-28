@@ -8,8 +8,6 @@ extern "C" {
 #include "stm32f1xx_hal.h"
 #include "stm32f1xx_hal_conf.h"
 
-#define PROG_START_ADR			(0x1000)
-
 #ifdef __cplusplus
 }
 #endif
