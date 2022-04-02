@@ -25,7 +25,7 @@ update_state_t update_check(update_ctx_t *su)
 	if (su->end_add >= UPDATE_END)
 		return UPDATE_END_ADDR_ERROR;
 
-	crc_calc = CRC16((char *)su->start_add, 0, update_len);
+	crc_calc = CRC16((char *)su->start_add + sizeof(update_ctx_t), 0, update_len);
 
 	if (crc_calc != su->crc)
 		return UPDATE_CRC_ERROR;

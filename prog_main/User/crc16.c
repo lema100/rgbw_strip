@@ -50,9 +50,10 @@ const unsigned char CRCLo[256] = {
 	0x41, 0x81, 0x80, 0x40
 };
 
-int CRC16 (char *Buffer, char Begin, char End){
-	unsigned char crc16hi, crc16lo, iIndex, usLen, pucFrame;
-	unsigned int CRC16;
+unsigned int CRC16 (char *Buffer, unsigned int Begin, unsigned int End)
+{
+	unsigned char crc16hi, crc16lo, iIndex;
+	unsigned int CRC16, usLen, pucFrame;
 	crc16hi = 0xFF;
 	crc16lo = 0xFF;
 	iIndex = 0;

@@ -23,7 +23,7 @@ int main(void)
 		}
 		for (uint32_t i = 0; i < len; i += 4)
 		{
-				HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, UPDATE_APP_START + i, *(uint32_t *)(((uint8_t *)s_up.start_add) + i));
+				HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, UPDATE_APP_START + i, *(uint32_t *)(((uint8_t *)s_up.start_add + sizeof(update_ctx_t)) + i));
 		}
 		HAL_FLASH_Lock();
 		NVIC_SystemReset();

@@ -7,7 +7,7 @@ extern "C" {
 
 #include "stm32f1xx_hal.h"
 
-#define VERSION "V.1.0"
+#define VERSION "V.1.1"
 
 void Error_Handler(void);
 

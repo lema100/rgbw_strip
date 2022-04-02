@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-int CRC16 (char *Buffer,	char Begin,		char End);
+unsigned int CRC16 (char *Buffer, unsigned int Begin, unsigned int End);
 
 #ifdef __cplusplus
 }

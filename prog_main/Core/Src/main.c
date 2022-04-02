@@ -100,7 +100,7 @@ void md_data_handling(void)
 		case UPDATE_CMD_CHECK:
 		{
 			update_ctx_t su;
-			ModBusSlaveData[MB_UPDATE_CMD] = update_check(&su);
+			ModBusSlaveData[MB_UPDATE_CMD] = update_check(&su) | 0x8000;
 			break;
 		}
 		default:
@@ -150,10 +150,11 @@ int main(void)
 		ModBusSlaveHandling(&ModBusSlave);
 		md_data_handling();
 
-		if (HAL_GetTick() / 100 % 2)
+		if (HAL_GetTick() / 300 % 2)
 			HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
 		else
 			HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET);
+
 	}
 }
 

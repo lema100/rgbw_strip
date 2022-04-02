@@ -50,7 +50,8 @@ void ModBusSlaveHandling(ModBusSlaveStruct *ctx)
 	{
 		if (ctx->RxD[0]==ctx->SlaveAddrr)
 		{
-			ctx->CRC16W=CRC16((char *) &ctx->RxD, 0, (ctx->EndFrame-2));
+			if (ctx->EndFrame > 2)
+				ctx->CRC16W=CRC16((char *) &ctx->RxD, 0, (ctx->EndFrame - 2));
 			if (((ctx->CRC16W&0x00FF)==ctx->RxD[ctx->EndFrame-2])&&((ctx->CRC16W>>8)==ctx->RxD[ctx->EndFrame-1]))
 			{
 				if (ctx->RxD[1]==0x03)

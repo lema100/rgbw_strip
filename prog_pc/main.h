@@ -81,5 +81,4 @@ enum
 	MB_UPDATE_DATA,
 };
 
-
 #endif // MAIN_H
